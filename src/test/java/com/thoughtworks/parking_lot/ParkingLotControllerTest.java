@@ -5,11 +5,13 @@ import com.thoughtworks.parking_lot.controller.ParkingLotController;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -17,19 +19,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.transaction.Transactional;
+
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(ParkingLotController.class)
+@SpringBootTest
 @RunWith(SpringRunner.class)
-@ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 public class ParkingLotControllerTest {
     @Autowired
@@ -69,27 +74,42 @@ public class ParkingLotControllerTest {
         when(parkingLotRepository.findAll()).thenReturn(parkingLots);
 
         mockMvc.perform(get("/parkingLots"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.parkingLotName", is("myHome")))
-                .andExpect(jsonPath("$.capacity", is(4)))
-                .andExpect(jsonPath("location", is("Zhongshan")));
+         .andDo(print())
+         .andExpect(status().isOk())
+         .andExpect(content().json("[{\"parkingLotName\":\"myHome\",\"capacity\":4,\"location\":\"Zhongshan\"},{\"parkingLotName\":\"myHome\",\"capacity\":4,\"location\":\"Zhongshan\"}]"));
 
     }
 
     @Test
-    public void should_post_parkingLost() throws Exception {
+    @Transactional
+    public void should_post_parkingLot() throws Exception {
         ParkingLot parkingLot = new ParkingLot();
         parkingLot.setParkingLotName("myHome");
         parkingLot.setCapacity(4);
         parkingLot.setLocation("Zhongshan");
 
         ObjectMapper objectMapper = new ObjectMapper();  // object转string
+        String str = objectMapper.writeValueAsString(parkingLot);
 
-        ResultActions resultActions = mockMvc.perform(post("/parkingLots")
+        mockMvc.perform(post("/parkingLots")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(parkingLot)));
-
-        resultActions.andExpect(status().isCreated());
+                .content("{\n" +
+                        "\t\"parkingLotName\":\"myHome\",\n" +
+                        "\t\"capacity\":4,\n" +
+                        "\t\"location\":\"zhongshan\"\n" +
+                        "}"));
+//        Assertions.assertTrue(parkingLotRepository.existsById(parkingLot.getParkingLotName()));
+//
     }
+//
+//    @Test
+//    public void should_get_parkingLot_given_by_name() {
+//        ParkingLot parkingLot = new ParkingLot();
+//        parkingLot.setParkingLotName("myHome");
+//        parkingLot.setCapacity(4);
+//        parkingLot.setLocation("Zhongshan");
+//
+//        when(parkingLotRepository.findById()).thenReturn();
+//    }
 
 }
