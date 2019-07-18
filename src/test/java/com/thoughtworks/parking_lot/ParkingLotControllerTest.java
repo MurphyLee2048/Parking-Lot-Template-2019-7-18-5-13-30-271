@@ -102,14 +102,28 @@ public class ParkingLotControllerTest {
 //
     }
 //
-//    @Test
-//    public void should_get_parkingLot_given_by_name() {
-//        ParkingLot parkingLot = new ParkingLot();
-//        parkingLot.setParkingLotName("myHome");
-//        parkingLot.setCapacity(4);
-//        parkingLot.setLocation("Zhongshan");
-//
-//        when(parkingLotRepository.findById()).thenReturn();
-//    }
+   @Test
+   public void should_get_parkingLot_given_by_name() {
+       ParkingLot parkingLot = new ParkingLot();
+       parkingLot.setParkingLotName("myHome");
+       parkingLot.setCapacity(4);
+       parkingLot.setLocation("Zhongshan");
 
+//        when(parkingLotRepository.findById()).thenReturn();
+   }
+    
+    @Test
+        public void should_get_parkingLot_given_by_name() {
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setParkingLotName("myHome");
+        parkingLot.setCapacity(4);
+        parkingLot.setLocation("Zhongshan");
+
+    }
+    
+      @Test
+    public void should_larger_the_capacity() {
+
+    }
+    
 }
