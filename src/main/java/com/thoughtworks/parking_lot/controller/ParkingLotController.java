@@ -35,5 +35,11 @@ public class ParkingLotController {
     public ParkingLot findAllParkingLots(@PathVariable String parkingLotName) {
         return parkingLotRepository.findById(parkingLotName).get();
     }
-
+    
+        @PutMapping("/parkingLots/{parkingLotName}")
+    public ParkingLot addParkingLotCapacity(@PathVariable String parkingLotName, @RequestBody int capacity) {
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotName).get();
+        parkingLot.setCapacity(capacity);
+        return parkingLot;
+    }
 }
