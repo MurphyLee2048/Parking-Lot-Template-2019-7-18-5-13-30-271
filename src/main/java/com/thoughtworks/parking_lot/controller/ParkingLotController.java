@@ -12,7 +12,7 @@ public class ParkingLotController {
 
     @DeleteMapping("/parkingLots/{parkingLotName}")
     public void deleteParkingLotByName(@PathVariable String parkingLotName) {
-        parkingLotRepository.deleteByName(parkingLotName);
+        parkingLotRepository.deleteByParkingLotName(parkingLotName);
     }
 
 }

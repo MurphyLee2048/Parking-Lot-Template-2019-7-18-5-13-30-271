@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, String> {
-    void deleteByName(String parkingLotName);
+    void deleteByParkingLotName(String parkingLotName);
 }
