@@ -5,6 +5,8 @@ import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ParkingLotController {
     @Autowired
@@ -13,6 +15,11 @@ public class ParkingLotController {
     @DeleteMapping("/parkingLots/{parkingLotName}")
     public void deleteParkingLotByName(@PathVariable String parkingLotName) {
         parkingLotRepository.deleteByParkingLotName(parkingLotName);
+    }
+
+    @GetMapping("/parkingLots")
+    public List<ParkingLot> findAll() {
+        return parkingLotRepository.findAll();
     }
 
 }
