@@ -1,5 +1,6 @@
 package com.thoughtworks.parking_lot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.parking_lot.controller.ParkingLotController;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
@@ -19,9 +20,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -67,14 +68,28 @@ public class ParkingLotControllerTest {
 
         when(parkingLotRepository.findAll()).thenReturn(parkingLots);
 
-        ResultActions resultActions = mockMvc.perform(get("/parkingLots"));
+        mockMvc.perform(get("/parkingLots"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.parkingLotName", is("myHome")))
+                .andExpect(jsonPath("$.capacity", is(4)))
+                .andExpect(jsonPath("location", is("Zhongshan")));
 
-        resultActions.andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.parkingLotName").value("myHome"))
-                .andExpect(jsonPath("$.capacity").value(4))
-                .andExpect(jsonPath("$.location").value("Zhongshan"));
+    }
 
+    @Test
+    public void should_post_parkingLost() throws Exception {
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setParkingLotName("myHome");
+        parkingLot.setCapacity(4);
+        parkingLot.setLocation("Zhongshan");
+
+        ObjectMapper objectMapper = new ObjectMapper();  // object转string
+
+        ResultActions resultActions = mockMvc.perform(post("/parkingLots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(parkingLot)));
+
+        resultActions.andExpect(status().isCreated());
     }
 
 }
