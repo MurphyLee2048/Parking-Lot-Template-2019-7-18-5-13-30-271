@@ -1,0 +1,20 @@
+# Form running gradle locally
+spring:
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:h2:file:./h2/oocl-agile-fs
+    driver-class-name: org.h2.Driver
+    username: lee
+    password: root
+  jpa:
+    # create 每次加载hibernate删除表重新建立
+    # create-drop 每次加载hibernate根据model生产表，sessionFactory关闭之后删除表
+    # update 每次加载hibernate更新表结构，不影响数据库（常用）
+    # validate 每次加载hibernate验证表结构，只和数据库内的表比较，不创建新表，但会插入新值
+    properties.hibernate.hbm2ddl.auto: validate
+    show-sql: true
+  #在浏览器中开启控制台 localhost:8080/h2-console
+  h2.console.enabled: true
+  flyway:
+    enabled: true
