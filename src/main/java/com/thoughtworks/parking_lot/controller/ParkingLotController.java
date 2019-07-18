@@ -18,8 +18,13 @@ public class ParkingLotController {
     }
 
     @GetMapping("/parkingLots")
-    public List<ParkingLot> findAll() {
+    public List<ParkingLot> findAllParkingLots() {
         return parkingLotRepository.findAll();
+    }
+
+    @PostMapping("/parkingLots")
+    public void postParkingLot(@RequestBody ParkingLot parkingLot) {
+        parkingLotRepository.save(parkingLot);
     }
 
 }
