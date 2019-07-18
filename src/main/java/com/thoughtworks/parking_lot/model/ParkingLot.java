@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name="parkinglot")
 public class ParkingLot {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String parkingLotName;
     private int capacity;  // TODO: larger than 0
     private String location;
