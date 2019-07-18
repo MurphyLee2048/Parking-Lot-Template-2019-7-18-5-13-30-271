@@ -10,6 +10,15 @@ public class ParkingLot {
     private int capacity;  // TODO: larger than 0
     private String location;
 
+    public ParkingLot() {
+    }
+
+    public ParkingLot(String parkingLotName, int capacity, String location) {
+        this.parkingLotName = parkingLotName;
+        this.capacity = capacity;
+        this.location = location;
+    }
+
     public String getParkingLotName() {
         return parkingLotName;
     }

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,7 @@ public class ParkingLotController {
 
     @DeleteMapping("/parkingLots/{parkingLotName}")
     public void deleteParkingLotByName(@PathVariable String parkingLotName) {
-        parkingLotRepository.deleteByParkingLotName(parkingLotName);
+        parkingLotRepository.deleteById(parkingLotName);
     }
 
     @GetMapping("/parkingLots")
@@ -28,5 +29,6 @@ public class ParkingLotController {
     public ResponseEntity postParkingLot(@RequestBody ParkingLot parkingLot) {
         return ResponseEntity.status(201).body(parkingLotRepository.save(parkingLot));
     }
+
 
 }

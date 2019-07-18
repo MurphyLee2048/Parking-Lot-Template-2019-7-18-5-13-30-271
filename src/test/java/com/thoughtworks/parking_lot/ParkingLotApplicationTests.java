@@ -14,10 +14,4 @@ public class ParkingLotApplicationTests {
     public void contextLoads() {
     }
 
-//    @Test
-//    public void delete_parkingLot_byName() {
-//        ParkingLot parkingLot = new ParkingLot();
-//        parkingLot.
-//    }
-
 }
