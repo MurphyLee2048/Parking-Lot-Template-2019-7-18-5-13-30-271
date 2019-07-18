@@ -3,6 +3,8 @@ package com.thoughtworks.parking_lot.controller;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +25,8 @@ public class ParkingLotController {
     }
 
     @PostMapping("/parkingLots")
-    public void postParkingLot(@RequestBody ParkingLot parkingLot) {
-        parkingLotRepository.save(parkingLot);
+    public ResponseEntity postParkingLot(@RequestBody ParkingLot parkingLot) {
+        return ResponseEntity.status(201).body(parkingLotRepository.save(parkingLot));
     }
 
 }
