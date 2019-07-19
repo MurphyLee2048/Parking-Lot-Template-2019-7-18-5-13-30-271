@@ -10,5 +10,5 @@ public class ParkingOrder {
     @Id
     private String orderId;
     private String parkingLotName;
-    
+
 }
