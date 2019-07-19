@@ -30,7 +30,6 @@ public class ParkingLotController {
         return ResponseEntity.status(201).body(parkingLotRepository.save(parkingLot));
     }
     
-    
     @GetMapping("/parkingLots/{parkingLotName}")
     public ParkingLot findAllParkingLots(@PathVariable String parkingLotName) {
         return parkingLotRepository.findById(parkingLotName).get();
