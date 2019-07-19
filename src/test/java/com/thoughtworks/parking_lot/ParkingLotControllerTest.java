@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest  // 集成
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class ParkingLotControllerTest {
@@ -81,7 +81,7 @@ public class ParkingLotControllerTest {
     }
 
     @Test
-    @Transactional
+//    @Transactional
     public void should_post_parkingLot() throws Exception {
         ParkingLot parkingLot = new ParkingLot();
         parkingLot.setParkingLotName("myHome");
@@ -111,15 +111,6 @@ public class ParkingLotControllerTest {
 
 //        when(parkingLotRepository.findById()).thenReturn();
    }
-    
-    @Test
-        public void should_get_parkingLot_given_by_name() {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.setParkingLotName("myHome");
-        parkingLot.setCapacity(4);
-        parkingLot.setLocation("Zhongshan");
-
-    }
     
       @Test
     public void should_larger_the_capacity() {

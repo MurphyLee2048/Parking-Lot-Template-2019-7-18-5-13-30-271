@@ -2,6 +2,8 @@ package com.thoughtworks.parking_lot.model;
 
 
 import javax.persistence.*;
+import java.util.List;
+
 @Entity
 @Table(name="parkinglot")
 public class ParkingLot {
@@ -9,6 +11,10 @@ public class ParkingLot {
     private String parkingLotName;
     private int capacity;  // TODO: larger than 0
     private String location;
+
+    @OneToMany
+    @JoinColumn(name = "parking_lot_name")
+    private List<ParkingOrder> parkingOrders;
 
     public ParkingLot() {
     }
