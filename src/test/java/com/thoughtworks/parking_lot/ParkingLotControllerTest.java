@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest  // 集成
+@SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class ParkingLotControllerTest {
@@ -131,20 +131,6 @@ public class ParkingLotControllerTest {
                 .content("5"))
                 .andExpect(status().isOk());
 
-    }
-
-    @Test
-    public void should_add_parking_order() throws Exception {
-        ParkingOrder parkingOrder = new ParkingOrder();
-        parkingOrder.setCarLicense("粤C 1111");
-        parkingOrder.setOrderId("001");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        mockMvc.perform(post("/parkingOrders")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(parkingOrder)))
-                .andExpect(status().isOk());
     }
 
 }
