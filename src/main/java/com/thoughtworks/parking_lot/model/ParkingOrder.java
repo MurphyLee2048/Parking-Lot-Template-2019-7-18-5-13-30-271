@@ -1,8 +1,6 @@
 package com.thoughtworks.parking_lot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,6 +12,10 @@ public class ParkingOrder {
     private Timestamp entryTime;
     private Timestamp leaveTime;
     private boolean status = true;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parkinglot_name")
+    private ParkingLot parkingLot;
 
     public String getOrderId() {
         return orderId;

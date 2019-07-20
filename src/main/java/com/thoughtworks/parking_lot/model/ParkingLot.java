@@ -12,8 +12,8 @@ public class ParkingLot {
     private int capacity;  // TODO: larger than 0
     private String location;
 
-    @OneToMany
-    @JoinColumn(name = "parking_lot_name")
+    @OneToMany(mappedBy = "parkingLot", cascade = CascadeType.ALL)
+
     private List<ParkingOrder> parkingOrders;
 
     public ParkingLot() {
