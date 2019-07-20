@@ -48,4 +48,12 @@ public class ParkingLot {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public List<ParkingOrder> getParkingOrders() {
+        return parkingOrders;
+    }
+
+    public void setParkingOrders(List<ParkingOrder> parkingOrders) {
+        this.parkingOrders = parkingOrders;
+    }
 }

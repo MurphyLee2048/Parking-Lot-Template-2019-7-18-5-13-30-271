@@ -22,12 +22,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import javax.transaction.Transactional;
 
 
-
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -74,14 +75,13 @@ public class ParkingLotControllerTest {
         when(parkingLotRepository.findAll()).thenReturn(parkingLots);
 
         mockMvc.perform(get("/parkingLots"))
-         .andDo(print())
-         .andExpect(status().isOk())
-         .andExpect(content().json("[{\"parkingLotName\":\"myHome\",\"capacity\":4,\"location\":\"Zhongshan\"},{\"parkingLotName\":\"myHome\",\"capacity\":4,\"location\":\"Zhongshan\"}]"));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"parkingLotName\":\"myHome\",\"capacity\":4,\"location\":\"Zhongshan\"},{\"parkingLotName\":\"myHome\",\"capacity\":4,\"location\":\"Zhongshan\"}]"));
 
     }
 
     @Test
-//    @Transactional
     public void should_post_parkingLot() throws Exception {
         ParkingLot parkingLot = new ParkingLot();
         parkingLot.setParkingLotName("myHome");
@@ -98,19 +98,25 @@ public class ParkingLotControllerTest {
 
     }
 
-   @Test
-   public void should_get_parkingLot_given_by_name() {
-       ParkingLot parkingLot = new ParkingLot();
-       parkingLot.setParkingLotName("myHome");
-       parkingLot.setCapacity(4);
-       parkingLot.setLocation("Zhongshan");
+    @Test
+    public void should_get_parkingLot_given_by_name() throws Exception {
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setParkingLotName("myHome");
+        parkingLot.setCapacity(4);
+        parkingLot.setLocation("Zhongshan");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Optional<ParkingLot> optionalParkingLot = Optional.of(parkingLot);
 
-//        when(parkingLotRepository.findById()).thenReturn();
-   }
-    
-      @Test
+        when(parkingLotRepository.findById(anyString())).thenReturn(optionalParkingLot);
+
+        mockMvc.perform(get("/parkingLots/{parkingLotName}", parkingLot.getParkingLotName()))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(parkingLot)));
+    }
+
+    @Test
     public void should_larger_the_capacity() {
 
     }
-    
+
 }

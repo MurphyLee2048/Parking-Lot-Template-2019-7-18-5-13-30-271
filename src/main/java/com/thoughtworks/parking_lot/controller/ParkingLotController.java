@@ -31,7 +31,7 @@ public class ParkingLotController {
     }
     
     @GetMapping("/parkingLots/{parkingLotName}")
-    public ParkingLot findAllParkingLots(@PathVariable String parkingLotName) {
+    public ParkingLot findParkingLotById(@PathVariable String parkingLotName) {
         return parkingLotRepository.findById(parkingLotName).get();
     }
     
