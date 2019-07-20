@@ -20,7 +20,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'com.h2database:h2:1.4.192'
-    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+//    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
     runtime 'com.h2database:h2'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'

@@ -13,8 +13,7 @@ public class ParkingOrder {
     private Timestamp leaveTime;
     private boolean status = true;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "parkinglot_name")
+    @ManyToOne
     private ParkingLot parkingLot;
 
     public String getOrderId() {
@@ -55,5 +54,13 @@ public class ParkingOrder {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public ParkingLot getParkingLot() {
+        return parkingLot;
+    }
+
+    public void setParkingLot(ParkingLot parkingLot) {
+        this.parkingLot = parkingLot;
     }
 }

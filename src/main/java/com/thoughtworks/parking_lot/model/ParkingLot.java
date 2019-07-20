@@ -12,8 +12,7 @@ public class ParkingLot {
     private int capacity;  // TODO: larger than 0
     private String location;
 
-    @OneToMany(mappedBy = "parkingLot", cascade = CascadeType.ALL)
-
+    @OneToMany(cascade = CascadeType.ALL ,fetch = FetchType.LAZY, mappedBy = "parkingLot")
     private List<ParkingOrder> parkingOrders;
 
     public ParkingLot() {
@@ -49,11 +48,6 @@ public class ParkingLot {
         this.location = location;
     }
 
-    public List<ParkingOrder> getParkingOrders() {
-        return parkingOrders;
-    }
 
-    public void setParkingOrders(List<ParkingOrder> parkingOrders) {
-        this.parkingOrders = parkingOrders;
-    }
+
 }
