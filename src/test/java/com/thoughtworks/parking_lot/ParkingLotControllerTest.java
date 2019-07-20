@@ -93,15 +93,11 @@ public class ParkingLotControllerTest {
 
         mockMvc.perform(post("/parkingLots")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "\t\"parkingLotName\":\"myHome\",\n" +
-                        "\t\"capacity\":4,\n" +
-                        "\t\"location\":\"zhongshan\"\n" +
-                        "}"));
-//        Assertions.assertTrue(parkingLotRepository.existsById(parkingLot.getParkingLotName()));
-//
+                .content(str))
+                .andExpect(status().isCreated());
+
     }
-//
+
    @Test
    public void should_get_parkingLot_given_by_name() {
        ParkingLot parkingLot = new ParkingLot();
