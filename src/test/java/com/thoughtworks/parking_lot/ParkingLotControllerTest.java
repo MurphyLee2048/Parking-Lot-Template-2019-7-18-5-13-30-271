@@ -29,6 +29,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -115,7 +116,18 @@ public class ParkingLotControllerTest {
     }
 
     @Test
-    public void should_larger_the_capacity() {
+    public void should_larger_the_capacity() throws Exception {
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setParkingLotName("myHome");
+        parkingLot.setCapacity(4);
+        Optional<ParkingLot> optionalParkingLot = Optional.of(parkingLot);
+
+        when(parkingLotRepository.findById(anyString())).thenReturn(optionalParkingLot);
+
+        mockMvc.perform(patch("/parkingLots/{parkingLotName}", parkingLot.getParkingLotName())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("5"))
+                .andExpect(status().isOk());
 
     }
 
