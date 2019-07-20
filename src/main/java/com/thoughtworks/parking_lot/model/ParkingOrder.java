@@ -7,7 +7,8 @@ import java.sql.Timestamp;
 @Table(name = "parking_order")
 public class ParkingOrder {
     @Id
-    private String orderId;
+    @GeneratedValue
+    private int orderId;
     private String carLicense;
     private Timestamp entryTime;
     private Timestamp leaveTime;
@@ -16,7 +17,7 @@ public class ParkingOrder {
     @ManyToOne
     private ParkingLot parkingLot;
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
@@ -36,7 +37,7 @@ public class ParkingOrder {
         return status;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

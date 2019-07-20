@@ -16,6 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,8 +35,6 @@ public class ParkingOrderControllerTest {
     ParkingOrderRepository parkingOrderRepository;
 
 
-
-
     @Transactional
     @Test
     public void should_add_parking_order() throws Exception {
@@ -41,7 +43,6 @@ public class ParkingOrderControllerTest {
         parkingLot.setCapacity(100);
         parkingLot.setLocation("Zhuhai");
         ParkingOrder parkingOrder = new ParkingOrder();
-        parkingOrder.setOrderId("001");
         parkingOrder.setCarLicense("粤C 1111");
         parkingOrder.setParkingLot(parkingLot);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -51,5 +52,24 @@ public class ParkingOrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(parkingOrder)))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void should_change_leaveTime_and_status() throws Exception {
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setParkingLotName("a");
+        parkingLot.setCapacity(100);
+        parkingLot.setLocation("Zhuhai");
+        ParkingOrder parkingOrder = new ParkingOrder();
+        parkingOrder.setCarLicense("粤C 1111");
+        parkingOrder.setParkingLot(parkingLot);
+        parkingOrder.setEntryTime(new Timestamp(new Date().getTime()));
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(patch("/parkingOrders/{orderId}", parkingOrder.getOrderId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(parkingOrder)))
+                .andExpect(status().isOk());
+
     }
 }
