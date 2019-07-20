@@ -79,7 +79,7 @@ public class ParkingLotControllerTest {
         parkingLot.setCapacity(4);
         parkingLot.setLocation("Zhongshan");
 
-        ObjectMapper objectMapper = new ObjectMapper();  // object转string
+        ObjectMapper objectMapper = new ObjectMapper();
         String str = objectMapper.writeValueAsString(parkingLot);
 
         mockMvc.perform(post("/parkingLots")
@@ -118,7 +118,6 @@ public class ParkingLotControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("5"))
                 .andExpect(status().isOk());
-
     }
 
 }

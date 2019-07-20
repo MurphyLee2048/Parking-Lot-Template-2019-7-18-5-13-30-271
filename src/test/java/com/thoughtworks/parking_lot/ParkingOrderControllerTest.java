@@ -3,6 +3,7 @@ package com.thoughtworks.parking_lot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.model.ParkingOrder;
+import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import com.thoughtworks.parking_lot.repository.ParkingOrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,15 +20,14 @@ import javax.transaction.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Optional;
 
-import static java.lang.String.format;
-import static java.lang.String.valueOf;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import static org.mockito.ArgumentMatchers.anyString;
 
 
 @SpringBootTest
@@ -39,6 +39,9 @@ public class ParkingOrderControllerTest {
 
     @MockBean
     ParkingOrderRepository parkingOrderRepository;
+
+    @MockBean
+    ParkingLotRepository parkingLotRepository;
 
 
     @Transactional
@@ -53,9 +56,10 @@ public class ParkingOrderControllerTest {
         parkingOrder.setParkingLot(parkingLot);
         ObjectMapper objectMapper = new ObjectMapper();
 
+        when(parkingLotRepository.findById(anyString())).thenReturn(Optional.of(parkingLot));
 
         mockMvc.perform(post("/parkingOrders?name={name}", parkingLot.getParkingLotName())
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(parkingOrder)))
                 .andExpect(status().isCreated());
     }
@@ -80,8 +84,5 @@ public class ParkingOrderControllerTest {
                 .content(objectMapper.writeValueAsString(parkingOrder.getCarLicense())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(result));
-
-
-
     }
 }
