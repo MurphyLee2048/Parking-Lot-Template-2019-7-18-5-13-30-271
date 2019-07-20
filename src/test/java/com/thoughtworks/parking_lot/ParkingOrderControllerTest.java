@@ -13,15 +13,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import javax.transaction.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
+import static java.lang.String.format;
+import static java.lang.String.valueOf;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -66,10 +72,16 @@ public class ParkingOrderControllerTest {
         parkingOrder.setEntryTime(new Timestamp(new Date().getTime()));
         ObjectMapper objectMapper = new ObjectMapper();
 
-        mockMvc.perform(patch("/parkingOrders/{orderId}", parkingOrder.getOrderId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(parkingOrder)))
-                .andExpect(status().isOk());
+        when(parkingOrderRepository.findParkingOrderByCarLicense(anyString())).thenReturn(parkingOrder);
+
+        Boolean result = new Boolean(false);
+        mockMvc.perform(patch("/parkingOrders")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(parkingOrder.getCarLicense())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(result));
+
+
 
     }
 }

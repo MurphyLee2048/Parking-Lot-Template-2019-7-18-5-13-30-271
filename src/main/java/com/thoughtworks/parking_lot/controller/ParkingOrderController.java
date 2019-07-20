@@ -6,10 +6,7 @@ import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import com.thoughtworks.parking_lot.repository.ParkingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -28,5 +25,14 @@ public class ParkingOrderController {
         parkingOrder.setParkingLot(parkingLot);
         parkingOrder.setEntryTime(new Timestamp(new Date().getTime()));
         return ResponseEntity.status(201).body(parkingOrderRepository.save(parkingOrder));
+    }
+
+    @PatchMapping("/parkingOrders")
+    public ParkingOrder updateParkingOrderBy(@RequestBody String carLicense) {
+        ParkingOrder parkingOrder = parkingOrderRepository.findParkingOrderByCarLicense(carLicense);
+        parkingOrder.setStatus(false);
+        parkingOrder.setLeaveTime(new Timestamp(new Date().getTime()));
+        parkingOrderRepository.save(parkingOrder);
+        return parkingOrder;
     }
 }
