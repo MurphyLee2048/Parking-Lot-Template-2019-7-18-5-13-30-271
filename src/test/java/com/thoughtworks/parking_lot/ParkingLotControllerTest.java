@@ -3,6 +3,7 @@ package com.thoughtworks.parking_lot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.parking_lot.controller.ParkingLotController;
 import com.thoughtworks.parking_lot.model.ParkingLot;
+import com.thoughtworks.parking_lot.model.ParkingOrder;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.persistence.Table;
 import javax.transaction.Transactional;
 
 
@@ -129,6 +131,20 @@ public class ParkingLotControllerTest {
                 .content("5"))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void should_add_parking_order() throws Exception {
+        ParkingOrder parkingOrder = new ParkingOrder();
+        parkingOrder.setCarLicense("粤C 1111");
+        parkingOrder.setOrderId("001");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(post("/parkingOrders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(parkingOrder)))
+                .andExpect(status().isOk());
     }
 
 }
